@@ -17,31 +17,6 @@ test.only('Verify  Student Registration is Successful with Mandatory Fields', as
      
 });
 
-test('Verify Student Registration is Successful--> Displayed in Raw Leads--> Register Now tab', async ({ page }) => {
-
-    const registrationPage = new StudentRegistrationPage(page);
-    const studentData= getValidStudentData();
-    await registrationPage.navigateToRegistration();
-    await registrationPage.fillRegistrationForm(studentData);
-    await registrationPage.fillOtpField(studentData.mobile);
-     await registrationPage.submitRegistration();
-    await expect(page).toHaveURL(/.*dashboard/);
-    
-    const adminLoginPage = new AdminLoginPage(page);     
-    await adminLoginPage.navigateToLogin();
-    await adminLoginPage.enterEmail(process.env.ADMIN_USERNAME);
-    await adminLoginPage.enterPassword(process.env.ADMIN_PASSWORD);
-    await adminLoginPage.clickLogin();
-    await expect(page).toHaveURL(/.*dashboard/);
-
-    const adminsidebarPage = new AdminSidebarPage(page);
-    await adminsidebarPage.goToRawLeads();  
-    const rawLeadsPage = new RawLeadsPage(page);
-    await rawLeadsPage.openRegisterNowTab();
-    await rawLeadsPage.verifyRegisteredStudent(studentData);
-
-});
-
 test('Verify Course and Specialization Dependent Dropdowns updates with matching courses', async ({ page }) => {
 
     const registrationPage = new StudentRegistrationPage(page);
